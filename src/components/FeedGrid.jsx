@@ -1,7 +1,7 @@
 import ResourceCard from './ResourceCard';
 import { Search } from 'lucide-react';
 
-const FeedGrid = ({ resources, onResourceClick, isLoading }) => {
+const FeedGrid = ({ resources, onResourceClick, isLoading, isBookmarked, onToggleBookmark }) => {
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -47,6 +47,8 @@ const FeedGrid = ({ resources, onResourceClick, isLoading }) => {
           key={resource.id}
           resource={resource}
           onClick={onResourceClick}
+          isBookmarked={isBookmarked(resource.id)}
+          onToggleBookmark={onToggleBookmark}
         />
       ))}
     </div>

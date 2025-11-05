@@ -3,9 +3,13 @@ import Navbar from './components/Navbar';
 import FilterPanel from './components/FilterPanel';
 import FeedGrid from './components/FeedGrid';
 import ResourceModal from './components/ResourceModal';
+import SubmissionForm from './components/SubmissionForm';
+import { AuthProvider } from './contexts/AuthContext';
 import { useResources } from './hooks/useResources';
+import { useBookmarks } from './hooks/useBookmarks';
+import { submitResourceToAirtable } from './services/airtable';
 
-function App() {
+function AppContent() {
   const {
     resources,
     searchQuery,
@@ -22,8 +26,11 @@ function App() {
     setSortBy,
   } = useResources();
 
+  const { isBookmarked, toggleBookmark } = useBookmarks();
+
   const [selectedResource, setSelectedResource] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmissionFormOpen, setIsSubmissionFormOpen] = useState(false);
 
   const handleResourceClick = (resource) => {
     setSelectedResource(resource);
@@ -31,6 +38,16 @@ function App() {
 
   const handleCloseModal = () => {
     setSelectedResource(null);
+  };
+
+  const handleSubmitResource = async (resourceData) => {
+    try {
+      await submitResourceToAirtable(resourceData);
+      alert('Resource submitted successfully! It will be reviewed before being published.');
+    } catch (error) {
+      console.error('Error submitting resource:', error);
+      throw error;
+    }
   };
 
   return (
@@ -42,6 +59,7 @@ function App() {
         sortBy={sortBy}
         onSortChange={setSortBy}
         resourceCount={resources.length}
+        onSubmitClick={() => setIsSubmissionFormOpen(true)}
       />
 
       {/* Main Content */}
@@ -67,6 +85,8 @@ function App() {
               resources={resources}
               onResourceClick={handleResourceClick}
               isLoading={isLoading}
+              isBookmarked={isBookmarked}
+              onToggleBookmark={toggleBookmark}
             />
           </main>
         </div>
@@ -79,7 +99,22 @@ function App() {
           onClose={handleCloseModal}
         />
       )}
+
+      {/* Submission Form */}
+      <SubmissionForm
+        isOpen={isSubmissionFormOpen}
+        onClose={() => setIsSubmissionFormOpen(false)}
+        onSubmit={handleSubmitResource}
+      />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

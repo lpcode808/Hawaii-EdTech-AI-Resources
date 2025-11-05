@@ -29,8 +29,10 @@ A curated AI resource discovery platform for the Hawaii AI community. Think "Pro
 
 - Node.js 16+ installed
 - npm or yarn package manager
+- Firebase account (for authentication and bookmarks)
+- Airtable account (for resource submissions)
 
-### Installation
+### Quick Start (Development)
 
 1. Clone the repository:
 ```bash
@@ -43,30 +45,58 @@ cd Hawaii-EdTech-AI-Resources
 npm install
 ```
 
-3. Start the development server:
+3. Set up environment variables:
+```bash
+cp .env.example .env
+# Edit .env with your Firebase and Airtable credentials
+```
+
+4. Start the development server:
 ```bash
 npm run dev
 ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+5. Open your browser and navigate to `http://localhost:5173`
+
+### Full Setup (Firebase + Airtable)
+
+For complete Phase 2 functionality including authentication, bookmarks, and submissions:
+
+**See [SETUP.md](./SETUP.md) for detailed setup instructions!**
+
+The setup guide includes:
+- Firebase project creation and configuration
+- Airtable base setup and API keys
+- Environment variable configuration
+- Vercel deployment instructions
+- Troubleshooting tips
 
 ## Project Structure
 
 ```
 src/
 ├── components/
-│   ├── Navbar.jsx          # Top navigation with search and sort
-│   ├── ResourceCard.jsx    # Individual resource card component
+│   ├── Navbar.jsx          # Top navigation with search, sort, and user menu
+│   ├── UserMenu.jsx        # User authentication dropdown menu
+│   ├── ResourceCard.jsx    # Individual resource card with bookmark button
 │   ├── FeedGrid.jsx        # Grid layout for resource cards
 │   ├── FilterPanel.jsx     # Sidebar filters (desktop)
 │   ├── ResourceModal.jsx   # Detail view modal
-│   └── SearchBar.jsx       # Search input with Fuse.js
+│   ├── SearchBar.jsx       # Search input with Fuse.js
+│   └── SubmissionForm.jsx  # Resource submission form modal
+├── contexts/
+│   └── AuthContext.jsx     # Firebase authentication context
+├── config/
+│   └── firebase.js         # Firebase initialization and config
+├── services/
+│   └── airtable.js         # Airtable API integration
 ├── data/
 │   └── mockResources.json  # 25 sample AI resources
 ├── utils/
 │   └── searchUtils.js      # Fuse.js configuration and utilities
 ├── hooks/
-│   └── useResources.js     # Data management hook
+│   ├── useResources.js     # Data management hook
+│   └── useBookmarks.js     # Bookmarking with Firestore
 ├── App.jsx                 # Main app component
 ├── index.css              # Tailwind imports
 └── main.jsx               # Entry point
@@ -136,20 +166,35 @@ Custom colors are defined in `tailwind.config.js`:
 - [x] Resource detail modal
 - [x] Smooth, polished UX
 
+## Phase 2 Complete ✓
+
+- [x] Firebase Authentication (Google login)
+- [x] User authentication UI with profile menu
+- [x] Bookmarking functionality with Firestore
+- [x] Airtable API integration for resource management
+- [x] Resource submission form (authenticated users)
+- [x] Vercel deployment configuration
+- [x] Comprehensive setup documentation
+
+### New Features in Phase 2:
+- **Google Sign-In**: Secure authentication through Firebase
+- **Personal Bookmarks**: Save favorite resources (synced to Firestore)
+- **Submit Resources**: Authenticated users can submit new resources
+- **Airtable Integration**: Submissions stored in Airtable for review/approval
+- **User Menu**: Profile dropdown with access to submit form and sign out
+
 ## Future Phases
 
-### Phase 2 (Planned)
-- Firebase Authentication (Google login)
-- Bookmarking functionality
-- Airtable API integration
-- Resource submission form
-- Deployment to Vercel
-
-### Phase 3 (Future)
+### Phase 3 (Planned)
+- Real-time resource syncing with Airtable
+- User profiles and activity tracking
+- Resource ratings and reviews
+- Community upvoting system
+- Email notifications for approved submissions
 - AI-powered recommendations
-- Resource rating system
-- Community contributions
-- Advanced analytics
+- Advanced analytics dashboard
+- Resource collections/playlists
+- Social sharing features
 
 ## Contributing
 

@@ -1,6 +1,6 @@
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, Bookmark } from 'lucide-react';
 
-const ResourceCard = ({ resource, onClick }) => {
+const ResourceCard = ({ resource, onClick, isBookmarked, onToggleBookmark }) => {
   const truncateText = (text, lines) => {
     return text;
   };
@@ -15,12 +15,31 @@ const ResourceCard = ({ resource, onClick }) => {
         ${resource.featured ? 'ring-2 ring-transparent bg-gradient-to-br from-blue-50 to-purple-50' : ''}
       `}
     >
-      {/* Featured Badge */}
-      {resource.featured && (
-        <div className="absolute top-3 right-3">
+      {/* Featured Badge & Bookmark Button */}
+      <div className="absolute top-3 right-3 flex items-center space-x-2">
+        {resource.featured && (
           <Sparkles className="w-5 h-5 text-amber-500" fill="currentColor" />
-        </div>
-      )}
+        )}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleBookmark?.(resource.id);
+          }}
+          className={`
+            p-1.5 rounded-lg transition-colors
+            ${isBookmarked
+              ? 'bg-primary text-white hover:bg-blue-700'
+              : 'bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-600'
+            }
+          `}
+          title={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
+        >
+          <Bookmark
+            className="w-4 h-4"
+            fill={isBookmarked ? 'currentColor' : 'none'}
+          />
+        </button>
+      </div>
 
       {/* Icon Placeholder */}
       <div className="w-16 h-16 bg-gradient-to-br from-primary to-blue-400 rounded-lg mb-4 flex items-center justify-center">

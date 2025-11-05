@@ -12,6 +12,8 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "airtable": "^0.12.2",
+    "firebase": "^12.5.0",
     "fuse.js": "^7.1.0",
     "lucide-react": "^0.552.0",
     "react": "^19.1.1",
