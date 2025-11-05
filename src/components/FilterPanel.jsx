@@ -1,4 +1,5 @@
-import { X, Filter } from 'lucide-react';
+import { useState } from 'react';
+import { X, Filter, ChevronDown, ChevronUp } from 'lucide-react';
 
 const FilterPanel = ({
   categories,
@@ -10,6 +11,9 @@ const FilterPanel = ({
   onClearFilters,
   hasActiveFilters,
 }) => {
+  const [isExpanded, setIsExpanded] = useState(true);
+  const totalActiveFilters = selectedCategories.length + selectedTags.length;
+
   return (
     <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
       <div className="flex items-center justify-between mb-6">
@@ -27,11 +31,43 @@ const FilterPanel = ({
         )}
       </div>
 
-      {/* Active Filters */}
-      {hasActiveFilters && (
-        <div className="mb-6 pb-6 border-b border-slate-200">
-          <h3 className="text-sm font-medium text-slate-700 mb-3">Active Filters</h3>
-          <div className="flex flex-wrap gap-2">
+      {/* Active Filters - Always rendered with fixed space */}
+      <div className="mb-6 pb-6 border-b border-slate-200 min-h-[80px]">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-slate-700">
+            Active Filters
+            {totalActiveFilters > 0 && (
+              <span className="ml-2 text-xs text-slate-500">
+                ({totalActiveFilters})
+              </span>
+            )}
+          </h3>
+          {totalActiveFilters > 3 && (
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="text-xs text-slate-600 hover:text-slate-900 flex items-center gap-1"
+            >
+              {isExpanded ? (
+                <>
+                  Collapse <ChevronUp className="w-3 h-3" />
+                </>
+              ) : (
+                <>
+                  Expand <ChevronDown className="w-3 h-3" />
+                </>
+              )}
+            </button>
+          )}
+        </div>
+
+        {totalActiveFilters === 0 ? (
+          <p className="text-xs text-slate-400 italic">No active filters</p>
+        ) : (
+          <div
+            className={`flex flex-wrap gap-2 overflow-hidden transition-all duration-300 ${
+              isExpanded ? 'max-h-[500px]' : 'max-h-[60px]'
+            }`}
+          >
             {selectedCategories.map((category) => (
               <button
                 key={category}
@@ -53,8 +89,8 @@ const FilterPanel = ({
               </button>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Categories */}
       <div className="mb-6">
