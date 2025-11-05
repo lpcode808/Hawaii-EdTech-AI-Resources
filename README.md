@@ -2,6 +2,8 @@
 
 A curated AI resource discovery platform for the Hawaii AI community. Think "Product Hunt meets Notion database" - a feed-based experience where each AI resource is a beautiful, browsable card.
 
+🔗 **Live Site**: [https://lpcode808.github.io/Hawaii-EdTech-AI-Resources/](https://lpcode808.github.io/Hawaii-EdTech-AI-Resources/)
+
 ## Features
 
 - **Feed-based Discovery**: Browse 25+ AI resources in a beautiful, responsive grid
